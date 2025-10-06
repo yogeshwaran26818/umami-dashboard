@@ -61,14 +61,15 @@ export default function Dashboard({ params }) {
     );
   }
 
-  // Mock change data (in real app, calculate from previous period)
-  const mockChanges = {
+  // Only show change indicators if we have data
+  const hasData = analytics.totalViews > 0;
+  const mockChanges = hasData ? {
     views: { value: 12.5, type: 'up' },
     visits: { value: 8.3, type: 'up' },
     visitors: { value: 5.2, type: 'down' },
     bounce: { value: 2.1, type: 'down' },
     duration: { value: 15.7, type: 'up' }
-  };
+  } : {};
 
   return (
     <div className="min-h-screen bg-black">
@@ -84,32 +85,32 @@ export default function Dashboard({ params }) {
           <MetricCard 
             title="Views" 
             value={analytics.totalViews.toLocaleString()} 
-            change={mockChanges.views.value}
-            changeType={mockChanges.views.type}
+            change={mockChanges.views?.value}
+            changeType={mockChanges.views?.type}
           />
           <MetricCard 
             title="Visits" 
             value={analytics.totalVisits.toLocaleString()} 
-            change={mockChanges.visits.value}
-            changeType={mockChanges.visits.type}
+            change={mockChanges.visits?.value}
+            changeType={mockChanges.visits?.type}
           />
           <MetricCard 
             title="Visitors" 
             value={analytics.uniqueVisitors.toLocaleString()} 
-            change={mockChanges.visitors.value}
-            changeType={mockChanges.visitors.type}
+            change={mockChanges.visitors?.value}
+            changeType={mockChanges.visitors?.type}
           />
           <MetricCard 
             title="Bounce Rate" 
             value={analytics.bounceRate} 
-            change={mockChanges.bounce.value}
-            changeType={mockChanges.bounce.type}
+            change={mockChanges.bounce?.value}
+            changeType={mockChanges.bounce?.type}
           />
           <MetricCard 
             title="Visit Duration" 
             value={`${analytics.averageVisitDuration}s`} 
-            change={mockChanges.duration.value}
-            changeType={mockChanges.duration.type}
+            change={mockChanges.duration?.value}
+            changeType={mockChanges.duration?.type}
           />
         </div>
 

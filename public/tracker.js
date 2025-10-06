@@ -2,8 +2,10 @@
   'use strict';
 
   // Configuration
-  const API_ENDPOINT = window.location.origin + '/api/events';
+  const API_ENDPOINT = 'http://localhost:3000/api/events'; // Fixed endpoint for local testing
   const WEBSITE_ID = window.UMAMI_WEBSITE_ID;
+  
+  console.log('Umami Tracker initialized:', { API_ENDPOINT, WEBSITE_ID });
 
   if (!WEBSITE_ID) {
     console.warn('Umami: WEBSITE_ID not found');
@@ -22,13 +24,22 @@
 
   // Send event to API
   function sendEvent(eventData) {
+    console.log('Sending event:', eventData);
     fetch(API_ENDPOINT, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(eventData)
-    }).catch(error => {
+    })
+    .then(response => {
+      console.log('Event sent successfully:', response.status);
+      return response.json();
+    })
+    .then(data => {
+      console.log('Response:', data);
+    })
+    .catch(error => {
       console.error('Umami tracking error:', error);
     });
   }
